@@ -1,0 +1,21 @@
+# 모든 node에 기본적으로 하나씩 떠있는 resource. 
+# node가 추가되면 자동으로 resource가 추가되고, node가 삭제되면 자동으로 resource가 삭제된다.
+
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  labels:
+    app: ds-nginx 
+  name: ds-nginx
+spec:
+  selector:
+    matchLabels:
+      app: po-nginx 
+  template:
+    metadata:
+      labels:
+        app: po-nginx
+    spec:
+      containers:
+      - name: nginx 
+        image: nginx 

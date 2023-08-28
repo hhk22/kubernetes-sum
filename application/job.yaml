@@ -1,0 +1,65 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-curl-succ
+spec:
+  template:
+    spec:
+      containers:
+      - name: net-tools
+        image: sysnet4admin/net-tools
+        command: ["curlchk",  "nginx"]
+      restartPolicy: Never # 반드시 명시
+
+--- 
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-completions 
+spec:
+  completions: 3  # job 들이 순차적으로 실행됨. 
+  template:
+    spec:
+      containers:
+      - name: net-tools
+        image: sysnet4admin/net-tools
+        command: ["curlchk",  "nginx"]
+      restartPolicy: Never
+
+--- 
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-parallelism
+spec:
+  parallelism: 3 # job 들을 한꺼번에 실행함. 
+  template:
+    spec:
+      containers:
+      - name: net-tools
+        image: sysnet4admin/net-tools
+        command: ["curlchk",  "nginx"]
+      restartPolicy: Never
+
+---
+
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: job-ttlsecondsafterfinished
+spec:
+  backoffLimit: 3
+  # activeDeadlineSeconds: 30
+  ttlSecondsAfterFinished: 30
+  template:
+    spec:
+      containers:
+      - name: net-tools
+        image: sysnet4admin/net-tools
+        command: ["/bin/sh", "-c"]
+        args:
+        - sleep 60;
+          curlchk nginx;  
+      restartPolicy: Never

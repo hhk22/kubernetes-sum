@@ -1,0 +1,25 @@
+
+
+# 1 안정적이고 고유한 네트워크 식별자가 필요한 경우
+# 2 안정적이고 지속적인 스토리지를 사용해야 하는 경우
+# 3 질서 정연한 포드의 배치와 확장을 원하는 경우
+# 4 포드의 자동 롤링업데이트를 사용하기 원하는 경우
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sts-chk-hn
+spec:
+  replicas: 3
+  serviceName: sts-svc-domain #statefulset need it (headless ip)
+  selector:
+    matchLabels:
+      app: sts
+  template:
+    metadata:
+      labels:
+        app: sts
+    spec:
+      containers:
+      - name: chk-hn
+        image: sysnet4admin/chk-hn
