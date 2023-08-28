@@ -1,4 +1,4 @@
-apiVersion: apps/v1
+ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: deploy-nginx
@@ -17,23 +17,16 @@ spec:
       containers:
       - name: nginx
         image: nginx
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: np-nginx 
+  name: lb-nginx 
 spec:
   selector:
     app: deploy-nginx  
   ports:
     - name: http
       port: 80
-      targetPort: 80
-      nodePort: 30000 #option 
-  type: NodePort
-
-
-# nodePort 30000 번으로 외부에 노출. 
-# 80(port)번으로 svc 연결 -> 80번으로 pod(targetPort)에 연결 
+      targetPort: 80 
+  type: LoadBalancer

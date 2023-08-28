@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-chk-ip
+  labels:
+    app: deploy-chk-ip
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: deploy-chk-ip
+  template:
+    metadata:
+      labels:
+        app: deploy-chk-ip 
+    spec:
+      containers:
+      - name: chk-ip
+        image: sysnet4admin/chk-ip
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lb-chk-ip 
+spec:
+  selector:
+    app: deploy-chk-ip  
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80 
+  type: LoadBalancer
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-data
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-data
+subsets:
+  - addresses:
+      - ip: 192.168.1.11
+    ports:
+      - name: http
+        port: 80
+
+
+##################################
+# k get svc
+# external-data / clusterIP / ...
+# lb-chk-ip     / LoadBalancer / ... / 192.168.1.11(externalIP)
+
+# k get endpoints
+# external-data / 192.168.1.11:80
+# lb-chk-ip     / ... ... ...
+
+# k exec -it net -- /bin/bash
+# curl external-data 의 진입 경로는??
+# external-data -> 192.168.1.11:80 --> lb-chk-ip --> lb-chk-ip의 endpoints중에 하나로 접근. 
+##################################

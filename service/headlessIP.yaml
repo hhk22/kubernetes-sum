@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sts-chk-hn
+spec:
+  replicas: 3
+  serviceName: sts-svc-domain #statefulset need it
+  selector:
+    matchLabels:
+      app: sts
+  template:
+    metadata:
+      labels:
+        app: sts
+    spec:
+      containers:
+      - name: chk-hn
+        image: sysnet4admin/chk-hn
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sts-svc-domain
+spec:
+  selector:
+    app: sts
+  ports:
+    - port: 80
+  clusterIP: None
+
+
+# cluster 내부에서 ( kubectl exec -it net -- /bin/bash )
+# nslookup sts-chk-hn-0.sts.svc-domain --> 접근됨. 
+# --> 이렇게 접근할려면, service의 name과 statefuleset의 externalname을 일치 시켜야함. 
+
+# service의 name과 externalname을 일치시키지 않으면, 
+# 만약 kine: Service, metadata.name: test라면, 
+# nslookup test --> statefulset의 pod 들에게는 접근이 가능함.
+# 하지만, sts-chk-hn-0.test --> 이렇게로는 접근이 안됨. 왜냐면, service.name과 sts.externalname이 안맞아서.. 

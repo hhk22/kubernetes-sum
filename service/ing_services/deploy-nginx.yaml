@@ -17,13 +17,11 @@ spec:
       containers:
       - name: nginx
         image: nginx
-
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
-  name: np-nginx 
+  name: ing-default 
 spec:
   selector:
     app: deploy-nginx  
@@ -31,9 +29,4 @@ spec:
     - name: http
       port: 80
       targetPort: 80
-      nodePort: 30000 #option 
-  type: NodePort
-
-
-# nodePort 30000 번으로 외부에 노출. 
-# 80(port)번으로 svc 연결 -> 80번으로 pod(targetPort)에 연결 
+  type: ClusterIP
