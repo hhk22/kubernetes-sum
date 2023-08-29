@@ -4,3 +4,4 @@
 - Application Resource
 - Service Resource
 - Volume Resource
+- Node Administration
