@@ -1,0 +1,39 @@
+
+
+
+# 원하는 node에 pod를 배치. 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodename 
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  nodeName: w3-k8s 
+
+
+# node에 label 추가.
+# kubectl label node w3-k8s input=test
+# 조회: kubectl get node -l input=test // kubectl get node -l input
+# label 제거
+# kubectl label node w3-k8s input-
+
+# 실습용 label 추가. 
+# kubectl label node w1-k8s gpupool=nvidia accelerator=tesla-a100
+# kubectl label node w2-k8s gpupool=nvidia accelerator=tesla-v100
+# kubectl label node w3-k8s diskint=nvme inmemory=redis
+
+# nodeSelector를 이용한 pod 배치. 
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodeselector-gpupool
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+  nodeSelector:
+    gpupool: nvidia
+
+# --> w1-k8s, w2-k8s 중에서만 pod가 배치됨. 

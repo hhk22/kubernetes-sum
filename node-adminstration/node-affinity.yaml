@@ -1,0 +1,107 @@
+
+# nodeName, nodeSelector를 통해서도 pod를 배치할 수 있지만,
+# Affinity를 통해서 더 자유롭게 배치가능. 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nodeaffinity
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: inmemory
+            operator: In
+            values:
+            - redis
+  containers:
+  - name: nginx
+    image: nginx
+
+# --> 위와 같이 matchEXpression으로 nodeAffinity를 지정하면,
+# 원하는 pod에 배치가능 
+# inmemory=redis인 node에만 pod가 배치됨. 
+
+# 꼭 required가 아닌 prefered를 통해서 비중으로 배치도 가능. 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nodeaffinity-preferred
+  name: nodeaffinity-preferred
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodeaffinity-preferred
+  template:
+    metadata:
+      labels:
+        app: nodeaffinity-preferred
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: gpupool
+                operator: In
+                values:
+                - nvidia
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: accelerator
+                operator: In
+                values:
+                - tesla-a100
+
+# --> required로 w1-k8s, w2-k8s가 선택되고 (and operator)
+# --> accelerator=tesla-a100인 w1-k8s에 자주 pod들이 배치됨. 
+
+# matchExpression을 이용해서 anti-affinity도 가능. 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: anti-nodeaffinity
+  name: anti-nodeaffinity
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: anti-nodeaffinity
+  template:
+    metadata:
+      labels:
+        app: anti-nodeaffinity
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: gpupool
+                operator: In
+                values:
+                - nvidia
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: accelerator
+                operator: NotIn
+                values:
+                - tesla-a100
+
+# gpupool=nvidia인 node들이 선택됨 (w1-k8s, w2-k8s)
+# accelerator가 tesla-a100이 아닌 node에 선호적으로 배치됨(NotIn)
