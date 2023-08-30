@@ -1,0 +1,43 @@
+
+# volume claim template 은 statefulSet과 잘 맞음. 
+# 각 pod에 맞는 volume을 생성할 수 있음. 
+
+# sc를 작성해 놓으면, 
+# 각 statefuleSet들이 sc에 맞는 request volume들을 생성하고 가져갈 수 있음. (독립적인 공간. 독립적인 주소로 접근가능. )
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: sts
+spec:
+  replicas: 3
+  serviceName: sts-svc-domain #statefulset need it
+  selector:
+    matchLabels:
+      app: sts
+  template:
+    metadata:
+      labels:
+        app: sts
+    spec:
+      containers:
+      - name: chk-hn
+        image: sysnet4admin/chk-hn
+        volumeMounts:
+        - name: each-sts-backup
+          mountPath: /backup_data
+  volumeClaimTemplates:
+  - metadata:
+      name: each-sts-backup
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "managed-nfs-storage"
+      resources:
+        requests:
+          storage: 20Gi
+
+# 여기서 보면 managed-nfs-storage는 nfs로 100Gi를 제공하는 sc. 
+# replicas가 3이므로, 각 pod마다 20Gi씩 할당받음.
+# 각 pod는 각자의 volume을 가지고 있음.
+# chk-hn-{index}.sts-svc-domain.default.svc.cluster.local 로 접근가능. 
+# db에 유용하다고 생각이 듬.  

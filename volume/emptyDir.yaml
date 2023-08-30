@@ -1,0 +1,40 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-emptydir 
+  labels:
+    app: nginx 
+spec:
+  containers:
+  - name: web-page
+    image: nginx 
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html 
+      name: empty-directory 
+
+  - name: html-builder 
+    image: alpine 
+    volumeMounts:
+    - mountPath: /html-dir 
+      name: empty-directory 
+    command: ["/bin/sh", "-c"]
+    args: 
+      - echo "This page created on $(date +%Y-%m-%d)" > /html-dir/index.html;
+        sleep infinity;
+
+  volumes:
+  - name: empty-directory 
+    emptyDir: {}
+
+
+"""
+
+EmptyDir : Pod 끼리 공유하는 Volume Directory
+- 일시적인 용도로 사용됨. 
+- Pod가 삭제되면 같이 없어짐. 
+
+2개의 container가 생성됨 ( empty dir 을 서로 공유. )
+- web-page : emptydir 에서 생성된 파일을 보여주는 역할. 
+- html-builder: emptydir 에 index.html 파일을 생성하는 역할. 
+
+"""

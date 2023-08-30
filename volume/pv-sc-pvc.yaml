@@ -1,0 +1,68 @@
+
+# 기존 pv-pvc 구조에서 storage class 를 이용하여 pvc를 생성하는 방법. 
+# storage class를 생성하려면 provisioner가 필요한데 이것은 external-provisioner를 이용함. 
+# external-provisioner : k8s-sigs.io/nfs-subdir-external-provisioner
+
+
+# nfs-exporter.sh dynamic-vol
+# 공유할 폴더 생성. 
+
+# nfs provisioner 배포. 
+kubectl apply -f nfs-subdir-external-provisioner/
+
+# 해당 provisioner를 연결해주는 sc 배포. 
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: managed-nfs-storage
+# or choose another name, must match deployment's env PROVISIONER_NAME'
+provisioner: k8s-sigs.io/nfs-subdir-external-provisioner 
+parameters:
+  # waits for nfs.io/storage-path annotation, if not specified will accept as empty string.
+  pathPattern: "${.PVC.namespace}/${.PVC.annotations.nfs.io/storage-path}" 
+  onDelete: delete
+
+
+# 해당 sc에 요청할 pvc 생성. 
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-dynamic  
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: managed-nfs-storage 
+
+# 해당 pvc를 이용하는 deployment 배포.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-pvc 
+  labels:
+    app: deploy-pvc 
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: deploy-pvc
+  template:
+    metadata:
+      labels:
+        app: deploy-pvc
+    spec:
+      containers:
+      - name: chk-log 
+        image: sysnet4admin/chk-log
+        volumeMounts:
+        - name: pvc-vol
+          mountPath: /audit
+      volumes:
+      - name: pvc-vol
+        persistentVolumeClaim:
+          claimName: pvc-dynamic 
+
+# pv를 따로 생성하지 않고도 sc를 이용하여
+# 동적인 pv를 사용하는 pvc, pod를 생성할 수 있음. 

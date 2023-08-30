@@ -1,0 +1,64 @@
+
+# 1. nfs를 이용하는 PV를 생성
+# 2. PV를 이용하는 PVC를 생성
+# 3. PVC를 이용하는 Deployment를 생성
+
+# 0. nfs service를 이용하여 pv에서 공유할 폴더 생성. 
+./nfs-exporter.sh pvc-vol
+
+# 1. nfs를 이용하는 PV를 생성
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-nfs 
+spec:
+  capacity:
+    storage: 100Mi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: 192.168.1.10
+    path: /nfs_shared/pvc-vol
+
+# 2. PV를 이용하는 PVC를 생성
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-nfs  
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 10Mi
+# --> 해당 조건을 만족하는 PV를 찾을것이고, pv-nfs를 연결할 것임. 
+
+# 3. PVC를 이용한 Deployment를 생성.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-pvc
+  labels:
+    app: deploy-pvc 
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: deploy-pvc
+  template:
+    metadata:
+      labels:
+        app: deploy-pvc
+    spec:
+      containers:
+      - name: chk-log 
+        image: sysnet4admin/chk-log
+        volumeMounts:
+        - name: pvc-vol
+          mountPath: /audit
+      volumes:
+      - name: pvc-vol
+        persistentVolumeClaim:
+          claimName: pvc-nfs 
+

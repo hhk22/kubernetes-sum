@@ -1,0 +1,56 @@
+# nfs-exporter.sh
+
+nfsdir=/nfs_shared/$1
+
+if [ $# -eq 0 ]; then
+  echo "usage: nfs-exporter.sh <name>"; exit 0
+fi
+
+if [[ ! -d /nfs_shared ]]; then
+  mkdir /nfs_shared
+fi
+
+if [[ ! -d $nfsdir ]]; then
+  mkdir -p $nfsdir
+  echo "$nfsdir 192.168.1.0/24(rw,sync,no_root_squash)" >> /etc/exports
+  if [[ $(systemctl is-enabled nfs) -eq "disabled" ]]; then
+    systemctl enable nfs
+  fi
+    systemctl restart nfs
+fi
+
+# ./nfs-exporter.sh nfs-vol
+# 위와 같은 cmd 를 실행하게 되면, /etc/exports 파일에 192.168.1.0/24에서 접속할 수 있는 공유파일을 만들어줌. 
+# 해당 공유파일은 192.168.1.10 /nfs_shared/nfs-vol
+# nfs service를 실행함으로써, 192.168.1.0/24에서 해당 파일에 접근가능하게됨. 
+# 해당 nfs 폴더를 mount 해서 쓸 수 있음. 아래와 같이. 
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-nfs
+  labels:
+    app: deploy-nfs
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: deploy-nfs
+  template:
+    metadata:
+      labels:
+        app: deploy-nfs
+    spec:
+      containers:
+      - name: chk-log 
+        image: sysnet4admin/chk-log
+        volumeMounts:
+        - name: nfs-vol
+          mountPath: /audit
+      volumes:
+      - name: nfs-vol
+        nfs:
+          server: 192.168.1.10
+          path: /nfs_shared/nfs-vol
+          
+# /nfs_shared/nfs-vol 폴더를 /audit 폴더에 mount 함. 
