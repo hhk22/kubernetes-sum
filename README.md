@@ -5,3 +5,4 @@
 - Service Resource
 - Volume Resource
 - Node Administration
+- Pod Administration
