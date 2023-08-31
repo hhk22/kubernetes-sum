@@ -1,0 +1,54 @@
+
+
+# topologyKey는 cpu, memory, disk 등의 조건을 제외하고 pod들을 균등하게 배포할때 사용. 
+
+# 실습을 위한 node label 설정. 
+kubectl label node w1-k8s topology.kubernetes.io/region=ap-northeast-2 topology.kubernetes.io/zone=ap-northeast-2a
+kubectl label node w2-k8s topology.kubernetes.io/region=ap-northeast-2 topology.kubernetes.io/zone=ap-northeast-2a
+kubectl label node w3-k8s topology.kubernetes.io/region=ap-northeast-2 topology.kubernetes.io/zone=ap-northeast-2b
+kubectl label node w4-k8s topology.kubernetes.io/region=ap-northeast-2 topology.kubernetes.io/zone=ap-northeast-2b
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deploy-topologyspreadconstraints
+  name: deploy-topologyspreadconstraints
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: deploy-topologyspreadconstraints
+  template:
+    metadata:
+      labels:
+        app: deploy-topologyspreadconstraints
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/region
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: deploy-topologyspreadconstraints
+      - maxSkew: 1
+        topologyKey: topology.kubernetes.io/zone
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            app: deploy-topologyspreadconstraints
+
+# maxSkew: 1 --> 최대 1개까지만 기울임정도를 허용. 
+# ex) topology.kubernetes.io/region: ap-northeast-1, ap-northeast-2 가 있고, 배포할려는 pod가 10개 이면, 
+# 4/6 까지만 허용. 
+
+# topology.kubernetes.io/region, topology.kubernetes.io/zone 두개의 label을 사용해서 균등하게 배포함. 
+# 실습환경에서는 모든 node가 region=ap-northeast-2 이고, 
+# w1-k8s, w2-k8s는 zone=ap-northeast-2a, w3-k8s, w4-k8s는 zone=ap-northeast-2b 이므로,
+# w1-k8s, w2-kus에 2개가 배포되고, w3-k8s, w4-k8s에 2개가 배포됨. (1/3, 3/1 도 가능함.)
+
+# 실습했을때는 w1-k8s에 2개, w3-k8s에 2개가 배포됨. 
+# topologykey에 의해, w1-k8s, w2-k8s가 하나의 영역으로 인식됨. 따로가 아님. 

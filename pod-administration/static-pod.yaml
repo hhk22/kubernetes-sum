@@ -1,0 +1,19 @@
+
+
+# static-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: static-pod 
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+
+# static pod는 kubelet에 의해서 관리되는 pod
+# static pod는 scheduling, cm에 의해 관리되지 않음. 
+# 따라서, kubernetes orchestration이 적용되지 않음. --> 따라서, 적절한 이유로 사용해야할듯.. 
+# 해당 node에 /etc/kubernetes/manifests 위치안에 yaml파일을 생성하면, kubelet이 실행시킴. 
+
+# cd /etc/kubernetes/manifests
+# kubectl apply -f ~/static-pod.yaml

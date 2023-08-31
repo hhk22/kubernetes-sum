@@ -1,0 +1,96 @@
+
+
+# pod affinity 
+# pod가 기준 파드와 같은 노드에 스케줄링 되도록 함. 
+
+# 일단 기준이 될 pod를 설정. 
+# nodeSelector를 사용하여 w1-k8s에 배포. 
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: sleepy
+    affinity: leader
+  name: w1-affinity-leader
+spec:
+  containers:
+  - image: sysnet4admin/sleepy
+    name: sleepy
+  nodeSelector:
+    kubernetes.io/hostname: w1-k8s
+
+# 위의 pod를 기준으로 정렬할 deployment를 생성. 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deploy-podaffinity
+  name: deploy-podaffinity
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: deploy-podaffinity
+  template:
+    metadata:
+      labels:
+        app: deploy-podaffinity
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      affinity:
+        podAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: affinity
+                operator: In
+                values:
+                - leader
+            # If you want to change topologyKey, 
+            # modify the admission controller, or disable.
+            topologyKey: kubernetes.io/hostname
+
+# requiredDuringSchedulingIgnoredDuringExecution로 hard affinity를 설정. 
+# affinity가 leader인 pod의 topologyKey를 가져오고
+# kubernetes.io/hostname: w1-k8s
+# w1-k8s인 node와 같은 node에 배포. 
+
+
+# pod anti-affinity
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: deploy-anti-podaffinity
+  name: deploy-anti-podaffinity
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: deploy-anti-podaffinity
+  template:
+    metadata:
+      labels:
+        app: deploy-anti-podaffinity
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+          - labelSelector:
+              matchExpressions:
+              - key: affinity
+                operator: In
+                values:
+                - leader
+            # If you want to change topologyKey, 
+            # modify the admission controller, or disable.
+            topologyKey: kubernetes.io/hostname
+
+# affinity: leader인 pod가 있는 node의 topologyKey를 가져옴
+# w1-k8s가 아닌 다른 node에 배포. 
+# --> w2-k8s, w3-k8s에 pod들이 배포. 

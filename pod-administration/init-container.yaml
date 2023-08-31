@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-initcontainers 
+  labels:
+    app: nginx 
+spec:
+  containers:
+  - name: web-page
+    image: nginx 
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html 
+      name: empty-directory 
+  initContainers:
+  - name: html-builder 
+    image: alpine 
+    volumeMounts:
+    - mountPath: /html-dir 
+      name: empty-directory 
+    command: ["/bin/sh", "-c"]
+    args: 
+      - echo "This page created on $(date +%Y-%m-%d) by initContainers" > /html-dir/index.html;
+  volumes:
+  - name: empty-directory 
+    emptyDir: {}
+
+# initContainer : pod의 다른 container가 시작되기전에 실행되는 container
+# 처음 한번 실행되고 없어지기 때문에 불필요한 container를 따로 만들지 않아도 됨. 
