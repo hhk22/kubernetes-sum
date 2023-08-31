@@ -31,3 +31,8 @@ spec:
       - effect: NoSchedule
         key: DB
         value: customer-info
+
+# 현재 node에 tain가 적용되어 있음 DB=cluster-info:NoSchedule
+# 그리고 해당 pod는 toleration을 가지고 있음. 따라서 해당 노드에 scheduling됨. 
+# if. NoSchedule이 아닌 PreferNoSchedule이면, 가급적 배치하되, 다른 node에 배치됨.
+# if. NoExecute라면, 해당 node는 pod에 배치될 수 있고, 만약 해당 node에 배치된 pod중 해당 toleration이 없으면 종료시켜버림. 
