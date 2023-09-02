@@ -1,0 +1,20 @@
+
+# resource 에 대한 quota를 제한하는 방법. 
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: quota-dev1
+  namespace: dev1
+spec:
+  hard:
+    pods: 10
+    managed-nfs-storage.storageclass.storage.k8s.io/persistentvolumeclaims: "2"
+    managed-nfs-storage.storageclass.storage.k8s.io/requests.storage: "2Gi"
+
+# --> dev1 namepsace에서 spec.hard에 대한 조건을 만족해야함. 
+# --> 다른 namespace에서는 적용이 안됨. 
+
+# pvc나 storage가 초과하는 request를 날렸을때는 Forbidden: exceed quota라는 로그가 떨어져서 쉽게 감지가 바로 되는데, 
+# pod가 초과하는것에 대해서는.. 감지가 한번에 안되긴 함
+# --> 초과하는 pod들의 events를 확인해야함. 
+# kubectl describe pod <pod_name> -n dev1

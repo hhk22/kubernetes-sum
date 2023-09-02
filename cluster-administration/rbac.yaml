@@ -1,0 +1,75 @@
+
+# create namespaces
+kubectl create namespace dev1
+
+# create service account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: dev1-hoon 
+  namespace: dev1
+
+# Role
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  namespace: dev1
+  name: role-get-dev1
+rules:
+- apiGroups: ["*"]
+  resources: ["pods", "deployments"]
+  verbs: ["get", "list"]
+
+# RoleBinding
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: rolebinding-dev1
+  namespace: dev1
+subjects:
+- kind: ServiceAccount
+  name: dev1-hoon
+  apiGroup: ""
+roleRef:
+  kind: Role
+  name: role-get-dev1 
+  apiGroup: rbac.authorization.k8s.io
+
+# set context
+sh ./set-ctx.sh
+
+# role binding은 namespace별로 권한이 주어짐. 
+# 반면에, cluster binding은 cluster자체에 권한이 주어져서 모든 namespace에 권한을 가짐. 
+# 예를들어, dev1-hoon의 role에 get po 권한을 주었지만 아래와 같이 실행됨
+# kubectl get po : Forbidden(all namespaces)
+# kubectl get po -n dev1 : No error.
+
+# cluster binding
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: pod-admin 
+rules:
+- apiGroups: ["*"]
+  resources: ["pods","deployments","deployments/scale"]
+  verbs: ["*"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: clusterrolebinding-pod-admin 
+subjects:
+- kind: ServiceAccount
+  name: sa-pod-admin 
+  apiGroup: ""
+  # need namespace for CRB subjects
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: pod-admin 
+  apiGroup: rbac.authorization.k8s.io
+
+
+# context
+./set-ctx-cluster.sh

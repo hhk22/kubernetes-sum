@@ -1,0 +1,26 @@
+# Resource Quota는 resource에 대해서 제한을 두는 형식. 
+# ex) 전체 pod의 갯수는 몇개까지만
+# ex) pvc의 갯수는 총 몇개까지만
+# 그래서 개별 object에 대한 제한을 두지는 못함. 
+# 그래서 나온것이 limite range : 개별 object에 대한 제한이 가능.
+
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: limits-dev2
+  namespace: dev2 
+spec:
+  limits:
+  - type: PersistentVolumeClaim
+    max:
+      storage: 2Gi
+    min:
+      storage: 1Gi
+  - type: Container
+    default:
+      memory: 512Mi
+    defaultRequest:
+      memory: 256Mi
+# PVC는 1G < pvc.stroage.disk < 2G
+# pod memory 256Mi < pod.memory < 512Mi
+# pod에 request.memory에 대한 설정이 없으면 256Mi로 요청하게됨. 

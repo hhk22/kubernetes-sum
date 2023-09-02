@@ -1,0 +1,104 @@
+
+# network 를 통해서 접근 제한을 걸수가 있음. 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    role: sensitive  
+    app: chk-info
+  name: deploy-deny-all
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      role: sensitive  
+      app: chk-info
+  template:
+    metadata:
+      labels:
+        role: sensitive  
+        app: chk-info
+    spec:
+      containers:
+      - image: sysnet4admin/chk-info
+        name: chk-info
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: chk-info
+  name: deploy-deny-all
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: chk-info
+  type: LoadBalancer
+
+
+# 일단먼저, deployment, service를 배포하고, 
+# network policy를 배포. 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: networkpolicy-deny-all
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: sensitive 
+  policyTypes:
+  - Ingress
+  - Egress
+
+# network policy가 role:sensitive가 아닌 경우에는 ingress/egress를 통과할 수가 없다. 
+# 따라서 pod끼리는 해당 label이 있어서 통신이 서로 가능함. 따른데서는 안됨. 
+
+# ip block을 지정해서 통제도 가능함. 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: networkpolicy-ipblock
+  namespace: default
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - ipBlock:
+        # 172.16.0.1 - 172.16.255.254
+        cidr: 172.16.0.0/16
+        # except:  # 이와 같이 특정 IP에 대해서 except를 줄 수도 있음. 
+        # - 172.16.n.n/24
+  egress:
+  - to:
+    - ipBlock:
+        # 172.16.0.1 - 172.16.127.254
+        cidr: 172.16.0.0/17
+        # except:  # 이와 같이 특정 IP에 대해서 except를 줄 수도 있음. 
+        # - 172.16.n.n/24
+
+
+# 특정 namespace를 통해서도 조건을 걸수가 있음. 
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: networkpolicy-namespaceselector-dev2
+  namespace: dev2
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
+  - Egress 
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: dev2
+  egress:
+  - {}
