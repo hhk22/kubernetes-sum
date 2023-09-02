@@ -6,3 +6,4 @@
 - Volume Resource
 - Node Administration
 - Pod Administration
+- Cluster Administration
