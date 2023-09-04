@@ -4,3 +4,5 @@
 - loadBalancer staticIP
 - Reloader
 - kubectl
+- Lens
+- KEDA
