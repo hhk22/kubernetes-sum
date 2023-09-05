@@ -4,7 +4,6 @@
 - loadBalancer staticIP
 - Reloader
 - kubectl
-- Lens
 - KEDA
 - containerD
 - nGrinder wiht HPA
