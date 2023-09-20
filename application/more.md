@@ -40,4 +40,13 @@ ssh docker-container
 - headless coreDNS pod endpoint 설정해줌. 
 - Canary 배포 전략
 - topology 다시 공부
+- 권한
+    - kubectl 과 같은 명령어 --> user / group
+        - certificate signing requests
+    - pod와 같은 resource들이 권한 --> serviceaccount
+- 네트워크
+    - docker0 network (NAT)
+
+- custom helm
+
 
