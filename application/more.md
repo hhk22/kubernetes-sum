@@ -40,8 +40,12 @@ restartPolicy: Never -> restart pod (restarted by deployment)
 - clusterIP < NodePort < LoadBalancer, 
 - ExternalName
 
-# topology
- 
+# 유저생성
+openssl genrsa -out seungkyua.key 2048 // create private key
+openssl req -new -key jbeda.pem -out jbeda-csr.pem -subj "/CN=myuser" // create csr
+openssl x509 -req -in seungkyua.csr -CA /etc/kubernetes/ssl/ca.crt -CAkey /etc/kubernetes/ssl/ca.key -CAcreateserial -out seungkyua.crt -days 10000
+
+# 권한과 관련된 내용은 다시 정리
 
 
 ```
