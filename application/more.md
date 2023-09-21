@@ -41,9 +41,23 @@ restartPolicy: Never -> restart pod (restarted by deployment)
 - ExternalName
 
 # 유저생성
-openssl genrsa -out seungkyua.key 2048 // create private key
-openssl req -new -key jbeda.pem -out jbeda-csr.pem -subj "/CN=myuser" // create csr
-openssl x509 -req -in seungkyua.csr -CA /etc/kubernetes/ssl/ca.crt -CAkey /etc/kubernetes/ssl/ca.key -CAcreateserial -out seungkyua.crt -days 10000
+openssl genrsa -out myuser.key 2048
+openssl req -new -key myuser.key -out myuser.csr -subj "/CN=myuser"
+
+cat <<EOF | kubectl apply -f -
+apiVersion: certificates.k8s.io/v1
+kind: CertificateSigningRequest
+metadata:
+  name: myuser
+spec:
+  request: "cat myuser.csr | base64 | tr -d "\n""
+  signerName: kubernetes.io/kube-apiserver-client
+  usages:
+  - client auth
+EOF
+
+kubectl certificate approve myuser
+
 
 # 권한과 관련된 내용은 다시 정리
 
