@@ -27,19 +27,25 @@ ssh docker-container
 
 ```
 
+```
+# Replicaset / ReplicationController
+Replicaset: MatchedLabels / MatchedExpressions
+ReplicationController : MatchedLabels, rolling-update
 
-- Replicaset / ReplicationController
-    - MatchedExpressions
-- Replicaset / Deployment
-    - Rolling Update 순서
-    - Daemonset은 그냥 kubectl edit으로도 rolling update가 되는데. deployment도 된다. 
-    그렇다면 rollingupdate와 edit의 차이점은? 
-- job restart policy: onFailure -> container재시작
-- job restart policy: Never -> pod재시작
-- ExternalName, LB > NodePort > clusterIP
-- headless coreDNS pod endpoint 설정해줌. 
-- Canary 배포 전략
-- topology 다시 공부
+# RestartPolicy
+restartPolicy: onFailure -> restart container
+restartPolicy: Never -> restart pod (restarted by deployment)
+
+# Service
+- clusterIP < NodePort < LoadBalancer, 
+- ExternalName
+
+# topology
+ 
+
+
+```
+
 - 권한
     - kubectl 과 같은 명령어 --> user / group
         - certificate signing requests
