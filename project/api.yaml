@@ -25,3 +25,16 @@ spec:
         nfs:
           server: 192.168.1.10
           path: /nfs_shared/html
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scraper-service
+spec:
+  selector:
+    app: scraper-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
