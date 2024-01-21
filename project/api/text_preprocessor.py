@@ -24,7 +24,7 @@ def run():
     meta_desc = bs.select_one('meta[name="description"]').get('content')
     meta_twitter_desc = bs.select_one('meta[name="twitter:title"]').get('content')
 
-    sentences = f"""
+    sentences = f'''
         This is my preprocessed information from scraped website. 
         Make some useful sentences to sell these products to customers.
 
@@ -35,7 +35,7 @@ def run():
         meta_description={meta_desc}
         meta_twitter_description={meta_twitter_desc}
 
-    """
+    '''
 
     with open(os.path.basename(file_path), "w", encoding="utf-8") as f:
         f.write(sentences)
