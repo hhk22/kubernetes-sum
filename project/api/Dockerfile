@@ -1,10 +1,10 @@
 
 FROM python:3.9
 
-RUN mkdir -p ~/api
-RUN mkdir -p ~/api/html
-RUN mkdir -p ~/api/sentences
-WORKDIR ~/api
+RUN mkdir -p /api
+RUN mkdir -p /api/html
+RUN mkdir -p /api/sentences
+WORKDIR /api
 
 COPY app.py ./app.py
 COPY utils.py ./utils.py
