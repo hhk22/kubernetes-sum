@@ -18,16 +18,9 @@ spec:
       - name: scraper-api
         image: hyeonghwan/mini-project-api:latest
         volumeMounts:
-        - name: nfs-vol-html
-          mountPath: ./html
-        - name: nfs-vol-sentence
-          mountPath: ./sentences
+        - name: nfs-provisioner
+          mountPath: ./
       volumes:
-      - name: nfs-vol-html
-        nfs:
-          server: 192.168.1.10
-          path: /nfs_shared/html
-      - name: nfs-vol-sentence
-        nfs:
-          server: 192.168.1.10
-          path: /nfs_shared/sentences
+      - name: nfs-provisioner
+        persistentVolumeClaim:
+          claimName: task-pv-claim
