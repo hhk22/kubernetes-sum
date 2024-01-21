@@ -14,13 +14,13 @@ spec:
       labels:
         app: nfs-pod-provisioner
     spec:
-      serviceAccountName: nfs-pod-provisioner-sa # name of service account
+      serviceAccountName: nfs-client-provisioner # name of service account
       containers:
         - name: nfs-pod-provisioner
           image: quay.io/external_storage/nfs-client-provisioner:latest
           volumeMounts:
             - name: nfs-provisioner
-              mountPath: /persistentvolumes
+              mountPath: /nfs_shared/dynamic-vol
           env:
             - name: PROVISIONER_NAME # do not change
               value: nfs-home # SAME AS PROVISIONER NAME VALUE IN STORAGECLASS
