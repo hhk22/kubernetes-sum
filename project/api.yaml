@@ -5,7 +5,7 @@ metadata:
   labels:
     app: scraper-api
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: scraper-api
@@ -19,7 +19,7 @@ spec:
         image: hyeonghwan/mini-project-api:latest
         volumeMounts:
         - name: nfs-provisioner
-          mountPath: "./"
+          mountPath: ./api
       volumes:
       - name: nfs-provisioner
         persistentVolumeClaim:
