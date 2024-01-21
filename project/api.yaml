@@ -16,11 +16,12 @@ spec:
     spec:
       containers:
       - name: scraper-api
-        image: hyeonghwan/mini-project-api:latest
+        image: hyeonghwan/mini-project-api
         volumeMounts:
-        - name: nfs-provisioner
-          mountPath: ./api
+        - name: nfs-vol
+          mountPath: /api/dynamic-vol
       volumes:
-      - name: nfs-provisioner
-        persistentVolumeClaim:
-          claimName: task-pv-claim
+      - name: nfs-vol
+        nfs:
+          server: 192.168.1.10
+          path: /nfs_shared/dynamic-vol

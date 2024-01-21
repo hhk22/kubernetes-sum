@@ -2,14 +2,15 @@
 FROM python:3.9
 
 RUN mkdir -p /api
-RUN mkdir -p /api/html
-RUN mkdir -p /api/sentences
+RUN mkdir -p /api/dynamic-vol
+RUN mkdir -p /api/dynamic-vol/html
+RUN mkdir -p /api/dynamic-vol/sentences
 WORKDIR /api
 
 COPY app.py ./app.py
 COPY utils.py ./utils.py
-COPY html/ ./html
-COPY sentences/ ./sentences
+# COPY html/ ./html
+# COPY sentences/ ./sentences
 
 RUN pip install --no-cache-dir fastapi uvicorn requests
 
