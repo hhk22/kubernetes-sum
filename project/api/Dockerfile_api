@@ -2,9 +2,9 @@
 FROM python:3.9
 
 RUN mkdir -p /api
-RUN mkdir -p /api/dynamic-vol
-RUN mkdir -p /api/dynamic-vol/html
-RUN mkdir -p /api/dynamic-vol/sentences
+# RUN mkdir -p /api/dynamic-vol
+# RUN mkdir -p /api/dynamic-vol/html
+# RUN mkdir -p /api/dynamic-vol/sentences
 WORKDIR /api
 
 COPY app.py ./app.py
