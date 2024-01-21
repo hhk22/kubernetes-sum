@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scraper-api
+  labels:
+    app: scraper-api
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: scraper-api
+  template:
+    metadata:
+      labels:
+        app: scraper-api
+    spec:
+      containers:
+      - name: scraper-api
+        image: hyeonghwan/mini-project-api:latest
+        volumeMounts:
+        - name: nfs-vol
+          mountPath: ./html
+      volumes:
+      - name: nfs-vol
+        nfs:
+          server: 192.168.1.10
+          path: /nfs_shared/html
