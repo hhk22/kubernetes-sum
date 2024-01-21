@@ -19,7 +19,7 @@ spec:
         image: hyeonghwan/mini-project-api:latest
         volumeMounts:
         - name: nfs-provisioner
-          mountPath: ./
+          mountPath: "./"
       volumes:
       - name: nfs-provisioner
         persistentVolumeClaim:

@@ -27,9 +27,9 @@ spec:
             - name: NFS_SERVER # do not change
               value: 192.168.1.10 # Ip of the NFS SERVER
             - name: NFS_PATH # do not change
-              value: /nfs_shared  # path to nfs directory setup
+              value: /nfs_shared/dynamic-vol/  # path to nfs directory setup
       volumes:
        - name: nfs-provisioner # same as volumemouts name
          nfs:
            server: 192.168.1.10
-           path: /nfs_shared
+           path: /nfs_shared/dynamic-vol
