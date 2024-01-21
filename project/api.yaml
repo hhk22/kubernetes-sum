@@ -36,4 +36,5 @@ spec:
   ports:
     - port: 80
       targetPort: 80
+  clusterIP: 10.0.171.239
   type: LoadBalancer
