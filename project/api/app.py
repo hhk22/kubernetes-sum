@@ -19,3 +19,7 @@ async def scape(url: str):
         print("path", path)
         f.write(html)
         return path
+    
+@app.get("/test")
+async def test():
+    return "HI"
