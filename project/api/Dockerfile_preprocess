@@ -6,7 +6,7 @@ RUN mkdir -p /api/html
 RUN mkdir -p /api/sentences
 WORKDIR /api
 
-COPY app.py ./app.py
+COPY text_preprocessor.py ./text_preprocessor.py
 COPY utils.py ./utils.py
 COPY html/ ./html
 COPY sentences/ ./sentences
@@ -15,4 +15,4 @@ RUN pip install --no-cache-dir fastapi uvicorn requests bs4
 
 EXPOSE 80
 
-CMD ["python", "text_preprocessor.py"]
+CMD ["sleep 20000"]
