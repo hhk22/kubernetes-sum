@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>[ìë¬] ìë¬íì´ì§ - ìì¤íì¤ë¥</title>
+    <style type="text/css">
+        body {
+            min-width: 1320px
+        }
+
+        body,
+        p,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        ul,
+        ol,
+        li,
+        dl,
+        dt,
+        dd,
+        table,
+        th,
+        td,
+        form,
+        fieldset,
+        legend,
+        input,
+        textarea,
+        button,
+        select {
+            margin: 0;
+            padding: 0
+        }
+
+        body,
+        input,
+        textarea,
+        select,
+        button,
+        table {
+            font-family: ëëê³ ë, "Nanum Gothic", "Apple SD Gothic Neo", "Malgun Gothic", "ë§ì ê³ ë", "Dotum", "ëì", "Helvetica", "sans-serif";
+            font-size: 12px;
+            line-height: 1.5em
+        }
+
+        img,
+        fieldset,
+        button {
+            border: 0
+        }
+
+        button {
+            cursor: pointer
+        }
+
+        ul,
+        ol {
+            list-style: none
+        }
+
+        em,
+        address {
+            font-style: normal
+        }
+
+        a,
+        a:hover,
+        a:active,
+        a:focus {
+            text-decoration: none
+        }
+
+        .blind {
+            position: absolute;
+            clip: rect(0 0 0 0);
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            overflow: hidden
+        }
+
+        img,
+        span,
+        p,
+        em,
+        a {
+            vertical-align: top
+        }
+
+        article,
+        aside,
+        details,
+        figcaption,
+        figure,
+        footer,
+        header,
+        main,
+        menu,
+        nav,
+        section,
+        summary {
+            display: block
+        }
+
+        #u_skip {
+            position: relative;
+            z-index: 2147483647
+        }
+
+        #u_skip a {
+            position: absolute;
+            top: -300px;
+            left: 0;
+            width: 128px;
+            border: 1px solid #4ec53d;
+            background: url(http://static.naver.net/common/sp_u_skip.png) repeat-x scroll 0 -11px transparent;
+            text-align: center;
+            outline: medium none
+        }
+
+        #u_skip a:active,
+        #u_skip a:focus {
+            top: 0;
+            text-decoration: none;
+            cursor: pointer
+        }
+
+        #u_skip a span {
+            display: inline-block;
+            padding: 2px 6px 0 0;
+            background: url(http://static.naver.net/common/sp_u_skip.png) no-repeat scroll 100% 11px transparent;
+            font-size: 11px;
+            line-height: 26px;
+            color: #FFF;
+            letter-spacing: -1px
+        }
+
+        .layout_header {
+            position: relative;
+            z-index: 2
+        }
+
+        #content {
+            position: relative;
+            z-index: 1
+        }
+
+        .layout_wide {
+            overflow: hidden
+        }
+
+        .layout_wide:before,
+        .layout_wide:after {
+            content: '';
+            display: table
+        }
+
+        .layout_wide:after {
+            clear: both
+        }
+
+        .layout_inner {
+            position: relative;
+            width: 1280px;
+            height: 100%;
+            margin: 0 auto
+        }
+
+        .layout_inner:before,
+        .layout_inner:after {
+            content: '';
+            display: table
+        }
+
+        .layout_inner:after {
+            clear: both
+        }
+
+        .header_shopping {
+            position: relative;
+            color: #fff;
+            background-color: #292b2c
+        }
+
+        .header_shopping:before {
+            content: '';
+            position: absolute;
+            top: 36px;
+            right: 0;
+            left: 0;
+            opacity: .07;
+            -ms-filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=7);
+            height: 1px;
+            background-color: #000
+        }
+
+        .header_shopping .global_area {
+            height: 37px
+        }
+
+        .header_shopping .global_area:before,
+        .header_shopping .global_area:after {
+            content: '';
+            display: table
+        }
+
+        .header_shopping .global_area:after {
+            clear: both
+        }
+
+        .header_shopping .global_area .gnb_area {
+            float: right
+        }
+
+        .header_shopping .global_area .gnb_area #gnb {
+            float: left;
+            top: 3px;
+            right: -9px
+        }
+
+        .header_shopping .global_area .gnb_area .my_area {
+            float: left;
+            margin: 3px -10px 0 0
+        }
+
+        .header_shopping .global_area .gnb_area .my_area>ul>li {
+            position: relative;
+            display: inline-block;
+            margin: 0 15px;
+            line-height: 28px;
+            letter-spacing: 0;
+            font-size: 11px;
+            color: #fff
+        }
+
+        .header_shopping .global_area .gnb_area .my_area>ul>li .bar {
+            float: left;
+            padding: 0 7px 0 6px
+        }
+
+        .header_shopping .global_area .gnb_area .my_area>ul>li>a {
+            float: left;
+            height: 28px;
+            line-height: 28px;
+            color: #fff;
+            vertical-align: middle
+        }
+
+        .header_shopping .global_area .gnb_area .my_area>ul>li>a.on~.layerpop_wrap {
+            display: block;
+        }
+
+        .header_shopping .global_area .gnb_area .my_area .bu {
+            background-image: url(http://img.shop.naver.net/storefarm/front/common/arrow_down_gray_5x3.png);
+            background-image: url(http://img.shop.naver.net/storefarm/front/common/arrow_down_gray_5x3.svg), none;
+            background-size: 5px 3px;
+            width: 5px;
+            height: 3px;
+            display: inline-block;
+            margin-left: 3px;
+            vertical-align: middle;
+            margin-top: -1px;
+        }
+
+        .header_shopping.error {
+            background-color: #fff;
+            color: #888
+        }
+
+        .header_shopping.error:before {
+            display: none
+        }
+
+        .header_shopping.error .global_area .gnb_area .my_area ul li,
+        .header_shopping.error .global_area .gnb_area .my_area ul li a {
+            color: #888
+        }
+
+        .module_error {
+            display: table;
+            width: 1280px;
+            height: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 1px solid #e2e5e9
+        }
+
+        .module_error .inner {
+            display: table-cell;
+            vertical-align: middle;
+            text-align: center
+        }
+
+        .module_error .inner:before {
+            background-image: url(http://img.shop.naver.net/storefarm/front/common/notice_error_75x67.png);
+            background-image: url(http://img.shop.naver.net/storefarm/front/common/notice_error_75x67.svg), none;
+            -webkit-background-size: 75px 67px;
+            background-size: 75px 67px;
+            width: 75px;
+            height: 67px;
+            content: '';
+            display: inline-block
+        }
+
+        .module_error .title_error {
+            display: block;
+            margin-top: 26px;
+            font-size: 32px;
+            line-height: 1.28em;
+            color: #000
+        }
+
+        .module_error .text {
+            margin-top: 10px;
+            font-size: 13px;
+            line-height: 1.69em;
+            color: #888
+        }
+
+        .module_error .text.gap {
+            margin-top: 20px
+        }
+
+        .module_error .link {
+            color: #888;
+            text-decoration: underline
+        }
+
+        .module_error .area_box {
+            width: 600px;
+            margin: 20px auto;
+            background-color: #f9fafb;
+            border: 1px solid #edeff2;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box
+        }
+
+        .module_error .area_box.datetime {
+            padding: 20px
+        }
+
+        .module_error .area_box.recommend {
+            margin-top: 30px
+        }
+
+        .module_error .area_box .text {
+            line-height: 1.38em
+        }
+
+        .module_error .text_datetime {
+            position: relative;
+            display: inline-block;
+            padding-left: 22px;
+            font-size: 16px;
+            line-height: 18px;
+            color: #000;
+            font-weight: 600
+        }
+
+        .module_error .text_datetime:before {
+            background-image: url(http://img.shop.naver.net/storefarm/front/common/icon_calendar_17x18.png);
+            background-image: url(http://img.shop.naver.net/storefarm/front/common/icon_calendar_17x18.svg), none;
+            -webkit-background-size: 17px 18px;
+            background-size: 17px 18px;
+            width: 17px;
+            height: 18px;
+            position: absolute;
+            top: 50%;
+            left: 0;
+            content: '';
+            margin-top: -11px
+        }
+
+        .module_error .title_box {
+            display: block;
+            padding: 20px 30px;
+            border-bottom: 1px solid #edeff2;
+            font-size: 16px;
+            color: #000;
+            text-align: left
+        }
+
+        .module_error .list_box {
+            margin: 4px 30px 25px
+        }
+
+        .module_error .item_box {
+            margin-top: 12px;
+            text-align: left
+        }
+
+        .module_error .link_box {
+            position: relative;
+            padding-left: 10px;
+            font-size: 13px;
+            line-height: 14px;
+            color: #444
+        }
+
+        .module_error .link_box:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: '-'
+        }
+
+        .module_error .link_box:hover {
+            text-decoration: none
+        }
+
+        .module_error .area_button {
+            margin-top: 50px;
+            font-size: 0
+        }
+
+        .module_error .button {
+            display: inline-block;
+            width: 295px;
+            height: 50px;
+            line-height: 50px;
+            margin: 0 5px;
+            border: 1px solid #e2e5e9;
+            font-size: 15px;
+            color: #000
+        }
+
+        .module_error .button:hover {
+            text-decoration: none
+        }
+
+        .module_error .button.highlight {
+            border-color: #00c73c
+        }
+
+        .module_error .highlight {
+            color: #00c73c
+        }
+
+        .layerpop_wrap {
+            display: none;
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            z-index: 10000;
+            margin-left: -80px;
+            min-width: 150px;
+        }
+
+        .layerpop_wrap .layer_arrow {
+            position: absolute;
+            left: 50%;
+            z-index: 1;
+            width: 6px;
+            height: 6px;
+            margin: -3px 0 -3px;
+            background-color: #fff;
+            border-style: solid;
+            border-width: 1px 0 0 1px;
+            border-color: #d7d7d7;
+            -webkit-transform: rotate(45deg);
+            -ms-transform: rotate(45deg);
+            transform: rotate(45deg);
+        }
+
+        .layerpop_wrap.small .layer_inner {
+            position: relative;
+            padding: 15px 40px 15px 15px;
+            text-align: left;
+            border: 1px solid #d7d7d7;
+            background: #fff;
+        }
+
+        .layerpop_wrap .item_menu:first-child {
+            margin-top: 0;
+        }
+
+        .layerpop_wrap .item_menu {
+            margin-top: 8px;
+            line-height: 13px;
+        }
+
+        .layerpop_wrap .link_menu {
+            display: inline-block;
+            font-size: 12px;
+            color: #000;
+            white-space: nowrap;
+        }
+
+        .layerpop_wrap .link_menu:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 80px;
+            padding-bottom: 100px;
+            font-size: 13px
+        }
+
+        .footer .list_policy {
+            margin-top: 25px;
+            overflow: hidden
+        }
+
+        .footer .list_policy .policy_item {
+            float: left
+        }
+
+        .footer .list_policy .link {
+            color: #444;
+            vertical-align: middle
+        }
+
+        .footer .list_policy .link .point {
+            color: #000
+        }
+
+        .footer .area_contact {
+            margin-top: 20px
+        }
+
+        .footer .area_contact:before,
+        .footer .area_contact:after {
+            content: '';
+            display: table
+        }
+
+        .footer .area_contact:after {
+            clear: both
+        }
+
+        .footer .area_contact .contact_item {
+            float: left;
+            margin-left: 100px
+        }
+
+        .layout_devide .footer .area_contact .contact_item {
+            margin-left: 50px
+        }
+
+        .footer .area_contact .contact_item:first-child {
+            margin-left: 0
+        }
+
+        .footer .area_contact .info {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #888;
+            line-height: 22px
+        }
+
+        .footer .area_contact .info_link {
+            color: #888
+        }
+
+        .footer .area_contact .info .bar {
+            font-size: 11px
+        }
+
+        .footer .area_contact .info .button_call {
+            display: inline-block;
+            margin-left: 5px;
+            padding: 0 4px;
+            border: 1px solid #e7e7e7;
+            font-size: 11px;
+            color: #888;
+            line-height: 17px;
+            vertical-align: middle
+        }
+
+        .footer .notice {
+            margin-top: 33px;
+            color: #888
+        }
+
+        .footer .copyright {
+            margin-top: 15px;
+            font-size: 11px;
+            color: #9b9b9b;
+            line-height: 11px
+        }
+
+        .footer .copyright .logo {
+            display: inline-block;
+            margin-right: 3px;
+            background-image: url(http://img.shop.naver.net/storefarm/front/common/logo_naver_64x11.png);
+            background-image: url(http://img.shop.naver.net/storefarm/front/common/logo_naver_64x11.svg), none;
+            -webkit-background-size: 64px 11px;
+            background-size: 64px 11px;
+            width: 64px;
+            height: 11px
+        }
+
+        .footer .copyright .link {
+            color: #9b9b9b
+        }
+
+        .footer .bar {
+            margin: 0 9px;
+            color: #c2c2c2;
+            opacity: .4;
+            font-size: 12px;
+            vertical-align: middle
+        }
+
+        .footer .bar+.info_link {
+            margin-left: -4px
+        }
+    </style>
+</head>
+
+<body>
+    <div id="u_skip">
+        <a href="#nav" onclick="document.getElementById('nav').tabIndex=-1;document.getElementById('lnb').focus();return false;"><span>ë©ì¸ ë©ë´ë¡ ë°ë¡ê°ê¸°</span></a>
+        <a href="#content" onclick="document.getElementById('content').tabIndex=-1;document.getElementById('content').focus();return false;"><span>ë³¸ë¬¸ì¼ë¡ ë°ë¡ê°ê¸°</span></a>
+    </div>
+    <div class="layout_wide">
+        <div class="layout_header">
+
+            <!-- [D] ìë¥ íì´ì§ì¸ ê²½ì° error ì¶ê° -->
+            <header class="header_shopping error">
+                <div class="layout_inner">
+                    <div class="global_area">
+                        <div class="gnb_area">
+                            <!-- [D] ë¡ê·¸ì¸ ì ì¼ ê²½ì° hidden -->
+                            <div class="my_area">
+                                <ul>
+                                    <li>
+                                        <!--[D] ë§ì´íì´ì§ í´ë¦­ì í´ëì¤ on ì¶ê°  ë ì´ì´ display:block -->
+                                        <a href="#" onclick="errorPage.toggleLayer('_layer_mypage');return false;"><span>ë§ì´íì´ì§</span><span class="bu"><span class="blind"> ì£¼ìë©ë´ë³´ê¸°</span></span></a>
+                                        <div class="layerpop_wrap small" id="_layer_mypage" onmouseover="errorPage.showLayer('_layer_mypage');" onmouseout="errorPage.hideLayer('_layer_mypage');">
+                                            <i class="layer_arrow center"></i>
+                                            <div class="layer_inner">
+                                                <ul class="list_menu">
+                                                    <li class="item_menu"><a class="link_menu" href="http://order.pay.naver.com/orderStatus">ì£¼ë¬¸íì¸/ë°°ì¡ì¡°í</a></li>
+                                                    <li class="item_menu"><a class="link_menu" href="http://benefit.pay.naver.com/coupon">ì¿ í°</a></li>
+                                                    <li class="item_menu"><a class="link_menu" href="http://my.shopping.naver.com/my/p/zzim/index.nhn">ìí ì°</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li><a href="http://order.pay.naver.com/main/cart"><span>ì¥ë°êµ¬ë</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+        </div>
+        <div id="content">
+            <!-- ìë¬íì´ì§ -->
+            <div class="module_error">
+                <div class="inner">
+                    <strong class="title_error">íì¬ ìë¹ì¤ ì ìì´ ë¶ê°í©ëë¤.</strong>
+                    <p class="text">ëìì ì ìíë ì´ì©ì ìê° ë§ê±°ë ì¸í°ë· ë¤í¸ìí¬ ìíê° ë¶ìì íì¬ ì ìì´ ë¶ê°í©ëë¤.<br>ì´ì©ì ë¶í¸ì ëë¦° ì  ì§ì¬ì¼ë¡ ì¬ê³¼ ëë¦¬ë©°, ì ì í ë¤ì ì ìí´ ì£¼ìê¸° ë°ëëë¤.<br>ê´ë ¨ ë¬¸ìì¬í­ì <a class="link" href="http://help.pay.naver.com">ê³ ê°ì¼í°</a>ì ë¬¸ìí´ì£¼ìë©´ ì¹ì í ìë´í´ëë¦¬ê² ìµëë¤.</p>
+                    <div class="area_button">
+                        <a class="button" role="button" href="#" onclick="history.back();return false;">ì´ì  íì´ì§ë¡ ê°ê¸°</a>
+                        <a class="button highlight" role="button" href="#" onclick="location.reload();return false;">ìë¡ê³ ì¹¨</a>
+                    </div>
+                </div>
+            </div>
+            <!-- //ìë¬íì´ì§ -->
+
+        </div>
+
+        <footer class="footer">
+            <div class="layout_inner">
+
+                <ul class="list_policy">
+                    <li class="policy_item"><a href="http://pay.naver.com/provision?viewType=use" class="link" target="_blank">ë¤ì´ë²íì´ ì´ì©ì½ê´</a><span class="bar">|</span></li>
+                    <li class="policy_item"><a href="http://pay.naver.com/provision?viewType=electronic" class="link" target="_blank">ì ìê¸ìµê±°ë ì´ì©ì½ê´</a><span class="bar">|</span></li>
+                    <li class="policy_item"><a href="http://mktg.naver.com/privacy/privacy.html" class="link" target="_blank"><strong>ê°ì¸ì ë³´ì²ë¦¬ë°©ì¹¨</strong></a><span class="bar">|</span></li>
+                    <li class="policy_item"><a href="http://storefarm.naver.com/main/rules/responsibility" class="link" target="_blank">ì±ìì íê³ì ë²ì ê³ ì§</a><span class="bar">|</span></li>
+                    <li class="policy_item"><a href="http://www.naver.com/rules/youthpolicy.html" class="link" target="_blank">ì²­ìëë³´í¸ì ì±</a><span class="bar">|</span></li>
+                    <li class="policy_item"><a href="http://ips.storefarm.naver.com" class="link" target="_blank"><span class="point">ì§ìì¬ì°ê¶ì ê³ ì¼í°</span></a><span class="bar">|</span></li>
+                    <li class="policy_item"><a href="http://storefarm.naver.com/main/rules/safety" target="_blank" class="link">ìì ê±°ë ê°ì´ë</a><span class="bar">|</span></li>
+                    <li class="policy_item"><a href="http://help.pay.naver.com" class="link" target="_blank">ì¼í&íì´ ê³ ê°ì¼í°</a></li>
+                </ul>
+                <div class="area_contact">
+                    <dl class="contact_item">
+                        <dt><strong>ë¤ì´ë²ã</strong></dt>
+                        <dd class="info">
+                            ì¬ììë±ë¡ë²í¸ 220-81-62517<span class="bar">|</span>íµì íë§¤ìì ê³ ë²í¸ 2006-ê²½ê¸°ì±ë¨-0692í¸<br> ëíì´ì¬ ìµìì°<span class="bar">|</span>ê²½ê¸°ë ì±ë¨ì ë¶ë¹êµ¬ ì ìì¼ë¡ 95, NAVER 1784, 13561<br> ì í 1588-3819<span class="bar">|</span>í©ì¤ 033-816-5300<span class="bar">|</span>
+                            <a href="http://www.ftc.go.kr/info/bizinfo/communicationList.jsp" target="_blank" class="info_link">ì¬ììë±ë¡ì ë³´ íì¸</a>
+                        </dd>
+                    </dl>
+                    <dl class="contact_item">
+                        <dt><strong>ê³ ê°ì¼í°</strong></dt>
+                        <dd class="info">
+                            ê°ìë ì¶ì²ì í´ê³ë¡ 89 ê°ìì ë¬¸ê±´ì¤íê´<br>ì í 1588-3819<a href="http://help.pay.naver.com" target="_blank" class="button_call">ì íì í´ë¦­</a><span class="bar">|</span>í©ì¤ 033-816-5300<br>ê²°ì ëì©ì ê³  1588-3816<br>ì´ë©ì¼ <a href="mailto:helpcustomer@naver.com" class="info_link">helpcustomer@naver.com</a>
+                        </dd>
+                    </dl>
+                    <dl class="contact_item">
+                        <dt><strong>ì ìê¸ìµê±°ë ë¶ìì²ë¦¬</strong></dt>
+                        <dd class="info">
+                            ì í 1588-3819<span class="bar">|</span>í©ì¤ 033-816-5300<br>ì´ë©ì¼ <a href="mailto:helpcustomer@naver.com" class="info_link">helpcustomer@naver.com</a>
+                        </dd>
+                    </dl>
+                </div>
+                <p class="notice">ë¤ì´ë²ãë ê²°ì ì ë³´ì ì¤ê°ìë¹ì¤ ëë íµì íë§¤ì¤ê°ìì¤íì ì ê³µìë¡ì, íµì íë§¤ì ë¹ì¬ìê° ìëë©°, ìíì ì£¼ë¬¸, ë°°ì¡ ë° íë¶ ë±ê³¼ ê´ë ¨í ìë¬´ì ì±ìì ê° íë§¤ììê² ììµëë¤.</p>
+                <address class="copyright">
+                    <a href="http://www.navercorp.com/" target="_blank" class="logo"><span class="blind">NAVER</span></a>
+                    <em>Copyright Â©</em>
+                    <a href="http://www.navercorp.com/" target="_blank" class="link"><strong>NAVER Corp.</strong></a>
+                    All Rights Reserved.
+                </address>
+            </div>
+        </footer>
+
+    </div>
+</body>
+
+<script type="text/javascript">
+    errorPage = {
+        bToggle : false,
+
+        toggleLayer : function(sSelector) {
+            if(this.bToggle) {
+                this.hideLayer(sSelector);
+            } else {
+                this.showLayer(sSelector);
+            }
+        },
+
+        showLayer : function(sSelector) {
+            document.getElementById(sSelector).style.display="block";
+            this.bToggle = true;
+        },
+
+        hideLayer : function(sSelector) {
+            document.getElementById(sSelector).style.display="none";
+            this.bToggle = false;
+        }
+    };
+</script>
+</html>
