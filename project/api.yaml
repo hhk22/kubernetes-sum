@@ -18,24 +18,16 @@ spec:
       - name: scraper-api
         image: hyeonghwan/mini-project-api:latest
         volumeMounts:
-        - name: nfs-vol
+        - name: nfs-vol-html
           mountPath: ./html
+        - name: nfs-vol-sentence
+          mountPath: ./sentences
       volumes:
-      - name: nfs-vol
+      - name: nfs-vol-html
         nfs:
           server: 192.168.1.10
           path: /nfs_shared/html
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: metalb-lb
-spec:
-  ports:
-  - name: http
-    port: 8080
-    protocol: TCP
-    targetPort: 80
-  selector:
-    app: scraper-api
-  type: LoadBalancer
+      - name: nfs-vol-sentence
+        nfs:
+            server: 192.168.1.10
+            path: /nfs_shared/sentences
