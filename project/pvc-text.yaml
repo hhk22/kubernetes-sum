@@ -1,4 +1,4 @@
-ind: PersistentVolumeClaim
+kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: pvc-test
