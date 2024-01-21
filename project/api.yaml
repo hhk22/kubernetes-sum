@@ -29,12 +29,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: scraper-service
+  name: metalb-lb
 spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 80
   selector:
     app: scraper-api
-  ports:
-    - port: 80
-      targetPort: 80
-  clusterIP: 10.0.171.239
   type: LoadBalancer
