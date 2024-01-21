@@ -1,6 +1,8 @@
 
 FROM python:3.9
 
+RUN pip install --no-cache-dir fastapi uvicorn requests
+
 RUN mkdir -p /api
 # RUN mkdir -p /api/dynamic-vol
 # RUN mkdir -p /api/dynamic-vol/html
@@ -11,8 +13,6 @@ COPY ./api/app.py ./app.py
 COPY ./api/utils.py ./utils.py
 # COPY html/ ./html
 # COPY sentences/ ./sentences
-
-RUN pip install --no-cache-dir fastapi uvicorn requests
 
 EXPOSE 80
 

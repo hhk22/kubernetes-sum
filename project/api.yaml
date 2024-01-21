@@ -17,6 +17,7 @@ spec:
       containers:
       - name: scraper-api
         image: hyeonghwan/mini-project-api:latest
+        imagePullPolicy: Always
         volumeMounts:
         - name: nfs-vol
           mountPath: /api/dynamic-vol
