@@ -4,9 +4,9 @@ FROM python:3.9
 RUN mkdir -p /api
 
 WORKDIR /api
-
+ENV PYTHONUNBUFFERED=1
 COPY ./api/text_preprocessor.py ./text_preprocessor.py
 
-RUN pip install --no-cache-dir requests bs4
+RUN pip install --no-cache-dir requests bs4 lxml
 
-CMD ["python", "api/text_preprocessor.py"]
+CMD ["python", "text_preprocessor.py"]

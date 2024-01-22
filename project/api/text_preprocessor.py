@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 def run():
 
-    files = glob.glob("/api/dynamic-vol/sentences/*")
+    files = glob.glob("/api/dynamic-vol/html/*")
     file_path = files[0]
 
     bs = None
@@ -35,7 +35,8 @@ def run():
 
     '''
 
-    with open(os.path.basename(file_path), "w", encoding="utf-8") as f:
+    basename = os.path.basename(file_path)
+    with open(f"/api/dynamic-vol/sentences/{basename}", "w", encoding="utf-8") as f:
         f.write(sentences)
 
     print(sentences)
