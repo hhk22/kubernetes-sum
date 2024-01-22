@@ -9,8 +9,8 @@ RUN mkdir -p /api
 # RUN mkdir -p /api/dynamic-vol/sentences
 WORKDIR /api
 
-COPY ./api/app.py ./app.py
-COPY ./api/utils.py ./utils.py
+# COPY ./api/app.py ./app.py
+# COPY ./api/utils.py ./utils.py
 # COPY html/ ./html
 # COPY sentences/ ./sentences
 
