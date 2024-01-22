@@ -1,9 +1,11 @@
 from fastapi import FastAPI
-from utils import encode_url
 import requests
+import re
 
 app = FastAPI()
 
+def encode_url(url):
+    return re.sub(r"[\.\,\/:]", "", url)
 
 @app.get("/")
 async def root():
