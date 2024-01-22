@@ -1,0 +1,12 @@
+
+FROM python:3.9
+
+RUN mkdir -p /api
+
+WORKDIR /api
+
+COPY ./api/text_preprocessor.py ./text_preprocessor.py
+
+RUN pip install --no-cache-dir requests bs4
+
+CMD ["python", "api/text_preprocessor.py"]

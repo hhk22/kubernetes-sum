@@ -4,11 +4,9 @@ import os
 import time
 from bs4 import BeautifulSoup
 
-# print(glob.glob("./html/*"))
-
 def run():
 
-    files = glob.glob("./html/*")
+    files = glob.glob("/api/dynamic-vol/sentences/*")
     file_path = files[0]
 
     bs = None
@@ -45,6 +43,7 @@ def run():
 if __name__ == "__main__":
     while True:
         try:
+            print('scraping...')
             run()
             time.sleep(10)
         except Exception as e:

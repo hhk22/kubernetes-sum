@@ -18,10 +18,11 @@ spec:
       - name: text-preprocessor
         image: hyeonghwan/mini-project-text-preprocessor:latest
         volumeMounts:
-        - name: nfs-provisioner
-          mountPath: ./
+        - name: nfs-vol
+          mountPath: /api/dynamic-vol
       volumes:
-      - name: nfs-provisioner
-        persistentVolumeClaim:
-          claimName: task-pv-claim
+      - name: nfs-vol
+        nfs:
+          server: 192.168.1.10
+          path: /nfs_shared/dynamic-vol
 ---
