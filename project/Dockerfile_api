@@ -4,9 +4,7 @@ FROM python:3.9
 RUN pip install --no-cache-dir fastapi uvicorn requests
 
 RUN mkdir -p /api
-# RUN mkdir -p /api/dynamic-vol
-# RUN mkdir -p /api/dynamic-vol/html
-# RUN mkdir -p /api/dynamic-vol/sentences
+
 WORKDIR /api
 
 COPY ./api/app.py ./app.py
