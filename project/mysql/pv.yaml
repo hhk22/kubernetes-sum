@@ -12,3 +12,11 @@ spec:
   storageClassName: local-storage
   local:
     path: /volume/pv1
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: namkubernetes.io/os
+          operator: In
+          values:
+          - linux
