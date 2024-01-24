@@ -50,9 +50,10 @@ def run():
         conn = pymysql.connect(host="172.16.103.176", user="root", password="root", db="gpt_results")
         now = datetime.now()
         now_date = now.strftime("%Y-%m-%d")
-        rst_without_punctuations = re.sub(r'[\'"]', '', rst)
+        pattern = re.compile(r'[^a-zA-Z0-9가-힣_\.,\-\(\)\[\]\{\}\s]')
+        sanitized_string = re.sub(pattern, '', rst)
         cur = conn.cursor()
-        sql = f"INSERT INTO results VALUES ({int(time.time())}, {os.path.basename(file_path)}, {rst_without_punctuations}, {price}, {now_date})"
+        sql = f"INSERT INTO results VALUES ({int(time.time())}, '{os.path.basename(file_path)}', '{sanitized_string}', {price}, '{now_date}')"
         print(sql)
         cur.execute(sql)
         conn.commit()
@@ -66,7 +67,6 @@ if __name__ == "__main__":
             print('gpting...')
             run()
             time.sleep(10)
-            break
         except Exception as e:
             time.sleep(5)
             print(e)
