@@ -1,0 +1,12 @@
+
+FROM python:3.9
+
+RUN mkdir -p /api
+
+WORKDIR /api
+ENV PYTHONUNBUFFERED=1
+COPY ./api/gpt.py ./gpt.py
+
+RUN pip install --no-cache-dir requests
+
+CMD ["python", "gpt.py"]

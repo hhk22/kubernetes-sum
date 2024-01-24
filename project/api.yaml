@@ -26,3 +26,19 @@ spec:
         nfs:
           server: 192.168.1.10
           path: /nfs_shared/dynamic-vol
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-service
+spec:
+  selector:
+    app: scraper-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  clusterIP: 10.0.171.239
+  type: LoadBalancer

@@ -1,0 +1,9 @@
+This is my preprocessed information from scraped website. 
+Make some useful sentences to sell these products to customers.
+
+product_name=당근 국내산 제주 구좌 흙 햇 주스용 세척 미니 3kg [원산지:국내산]
+original_price=110,000
+sale_price=6,900
+title=당근 국내산 제주 구좌 흙 햇 주스용 세척 미니 3kg [원산지:국내산]
+meta_description=당근 국내산 제주 구좌 흙 햇 주스용 세척 미니 3kg [원산지:국내산]
+meta_twitter_description=당근 국내산 제주 구좌 흙 햇 주스용 세척 미니 3kg [원산지:국내산]
