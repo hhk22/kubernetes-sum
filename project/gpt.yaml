@@ -20,7 +20,7 @@ spec:
         env:
         - name: OPENAI_KEY
           valueFrom:
-            seecretKeyRef:
+            secretKeyRef:
               name: mysecret
               key: OPENAI_KEY
         volumeMounts:
