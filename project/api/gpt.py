@@ -3,6 +3,10 @@ import glob
 import time
 import os
 import json
+import pymysql
+import re
+import time
+from datetime import datetime
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain.callbacks import get_openai_callback
@@ -42,8 +46,19 @@ def run():
             "price": price,
             "gpt_result": rst
         }, ensure_ascii=False))
+    
+        conn = pymysql.connect(host="172.16.103.176", user="root", password="root", db="gpt_results")
+        now = datetime.now()
+        now_date = now.strftime("%Y-%m-%d")
+        rst_without_punctuations = re.sub(r'[\'"]', '', rst)
+        cur = conn.cursor()
+        sql = f"INSERT INTO results VALUES ({int(time.time())}, {os.path.basename(file_path)}, {rst_without_punctuations}, {price}, {now_date})"
+        print(sql)
+        cur.execute(sql)
+        conn.commit()
+        conn.close()
 
-    # print(sentences)
+    
 
 if __name__ == "__main__":
     while True:
