@@ -1,6 +1,7 @@
 
 import glob
 import time
+import os
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain.callbacks import get_openai_callback
@@ -26,10 +27,11 @@ def run():
     file_path = files[0]
 
     text = None
+    api_key = os.environ.get("OPENAI_KEY")
     with open(file_path, encoding="utf-8") as f:
         text = f.read()
     # os.remove(file_path)
-    rst = query_openai(text)
+    rst = query_openai(text, api_key)
     print(rst)
     
     # basename = os.path.basename(file_path)
