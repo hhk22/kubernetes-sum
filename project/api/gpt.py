@@ -2,10 +2,12 @@
 import glob
 import time
 import os
+import json
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, SystemMessage
 from langchain.callbacks import get_openai_callback
-
+# from dotenv import load_dotenv
+# load_dotenv()
 
 def query_openai(prompt, api_key):
     chat = ChatOpenAI(api_key=api_key)
@@ -16,10 +18,11 @@ def query_openai(prompt, api_key):
     ]
 
     result = None
+    price = None
     with get_openai_callback() as cb:
         result = chat.invoke(messages).content
-        print(cb)
-    return result
+        price = cb.total_cost
+    return result, price
 
 def run():
 
@@ -30,13 +33,15 @@ def run():
     api_key = os.environ.get("OPENAI_KEY")
     with open(file_path, encoding="utf-8") as f:
         text = f.read()
-    # os.remove(file_path)
-    rst = query_openai(text, api_key)
-    print(rst)
+    os.remove(file_path)
+    rst, price = query_openai(text, api_key)
     
-    # basename = os.path.basename(file_path)
-    # with open(f"/api/dynamic-vol/sentences/{basename}", "w", encoding="utf-8") as f:
-    #     f.write(sentences)
+    basename = os.path.basename(file_path)
+    with open(f"/api/dynamic-vol/gpt_results/{basename}.json", "w", encoding="utf-8") as f:
+        f.write(json.dumps({
+            "price": price,
+            "gpt_result": rst
+        }, ensure_ascii=False))
 
     # print(sentences)
 
