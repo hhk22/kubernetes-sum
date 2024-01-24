@@ -7,6 +7,6 @@ WORKDIR /api
 ENV PYTHONUNBUFFERED=1
 COPY ./api/gpt.py ./gpt.py
 
-RUN pip install --no-cache-dir requests
+RUN pip install --no-cache-dir langchain langchain_core langchain_openai
 
 CMD ["python", "gpt.py"]
